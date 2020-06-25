@@ -1,0 +1,2179 @@
+{
+	"info": {
+		"_postman_id": "093a6944-7a81-4366-9a3f-91a135ab3c81",
+		"name": "ACM-Pinpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserRoles - ACM",
+			"item": [
+				{
+					"name": "ACMConfiguration",
+					"item": [
+						{
+							"name": "AuthenticationProvider",
+							"item": [
+								{
+									"name": "DisableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b4461006-2258-464c-83f7-02fe8cf4fa41",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FAuthentication%2520Provider?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should disable the privileges for the User Group',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+													"                 })\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{Authorization}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Authentication Provider\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Authentication Provider\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Authentication Provider\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "EnableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4e7debaa-362e-4227-abc9-33d6b2ea80a2",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FAuthentication%2520Provider?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should have Read, Write and Delete Privileges for Authentication Provider',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"\r",
+													"                     pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql(\"Access Control://Configuration/Authentication Provider\");\r",
+													"                      pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+													"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+													"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+													"\r",
+													"                 })\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{Authorization}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Authentication Provider\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Authentication Provider\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Authentication Provider\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Encryption",
+							"item": [
+								{
+									"name": "DisableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "70d9a922-11c9-4ad5-9dfa-542d047bbd0b",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FEncryption?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should disable the privileges for the User Group',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+													"                 })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{Authorization}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Encryption\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Encryption\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Encryption\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "EnableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d68efd96-ee02-40ee-a3b1-76fca280b6d2",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FEncryption?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should have Read, Write and Delete Privileges for Encryption',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql(\"Access Control://Configuration/Encryption\");\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+													"\r",
+													"                 })\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{Authorization}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Encryption\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Encryption\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Encryption\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "LDAPConfiguration",
+							"item": [
+								{
+									"name": "EnableRWDPrivileges",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "0d22daac-5313-47c6-9f5d-6bd22d81d570",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6a12ce72-537e-4ed1-bbc7-51c9be7149ec",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FLDAP%2520Configuration?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should have Read wirte Delete privileges for LDAP Configuration',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     \r",
+													"                     \r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql(\"Access Control://Configuration/LDAP Configuration\");\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+													"                     })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{Authorization}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/LDAP Configuration\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/LDAP Configuration\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/LDAP Configuration\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DisableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9634caed-a693-4cb2-a403-189ff41c3918",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FLDAP%2520Configuration?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should disable the privileges for the User Group',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+													"                 })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{Authorization}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/LDAP Configuration\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/LDAP Configuration\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/LDAP Configuration\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "PermissionTypes",
+							"item": [
+								{
+									"name": "DisableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f441a918-3b92-47b0-b803-cfbd78cc47c6",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FPermission%2520Types?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should not have privileges for  Permission Types',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     \r",
+													"                     \r",
+													"                    pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+													"                   \r",
+													"                     })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{Authorization}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Permission Types\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Permission Types\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Permission Types\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "EnableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "62deb095-060c-4b34-832d-641bc5628fa5",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FPermission%2520Types?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should have Read wirte Delete privileges for Permission Types',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     \r",
+													"                     \r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql(\"Access Control://Configuration/Permission Types\");\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+													"                     })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{Authorization}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Permission Types\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Permission Types\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/Permission Types\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "SAMLConfiguration",
+							"item": [
+								{
+									"name": "EnableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3c3d00af-cf94-4e88-aac3-6e32c77ff9b6",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FSAML%2520Configuration?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should have Read wirte Delete privileges for SAML Configuration',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     \r",
+													"                     \r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql(\"Access Control://Configuration/SAML Configuration\");\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+													"                    pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+													"                     })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{Authorization}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/SAML Configuration\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/SAML Configuration\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Access Control://Configuration/SAML Configuration\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DisableRWDPrivileges",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2fe68f67-daef-43b5-a3c7-51598ff3a2c1",
+												"exec": [
+													"pm.sendRequest(\r",
+													"    {\r",
+													"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration%252FSAML%2520Configuration?actions=false\",\r",
+													"        method:\"GET\",\r",
+													"        header:{\r",
+													"           \"content-type\":\"application/json\",\r",
+													"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+													"            }\r",
+													"        }, function (err, response) {\r",
+													"                 console.log(response.json());\r",
+													"                  pm.test('Status code should be 200',function(){\r",
+													"                    pm.expect(response).to.have.property('code', 200);\r",
+													"                 });\r",
+													"                 pm.test('Should not have privileges for SAML Configuration',function(){\r",
+													"                     var jsonData = response.json();\r",
+													"                     \r",
+													"                     \r",
+													"                    pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+													"                   \r",
+													"                     })\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{Authorization}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration/SAML Configuration\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration/SAML Configuration\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration/SAML Configuration\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration/SAML Configuration\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration/SAML Configuration\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/privileges?actions=false",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"privileges"
+											],
+											"query": [
+												{
+													"key": "actions",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "DisableAccessACMConfiguration",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "e9b4848e-3e61-4b4a-b4e0-434a82d3f998",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "f435ec39-711b-49da-b8a2-d04213e02796",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"        }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status code should be 200',function(){\r",
+											"                    pm.expect(response).to.have.property('code', 200);\r",
+											"                 });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EnableAccessACMConfiguration",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8b3b6b23-2ae9-4df8-b813-bab01beb36dd",
+										"exec": [
+											"var result= pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Access%2520Control%253A%252F%252FConfiguration?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"        }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                 pm.test('Status code should be 200',function(){\r",
+											"                    pm.expect(response).to.have.property('code', 200);\r",
+											"                 });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Access Control://Configuration\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Organizations",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "UserGroups",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Privileges",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Users",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Privileges",
+			"item": [
+				{
+					"name": "openPrivileges",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE1OTI2MzUyMTgsInN1YiI6ImFjbS1hZG1pbiIsImVtYWlsIjoiYWNtLWFkbWluQGZsYXRpcm9ucy5jb20iLCJyb2xlcyI6WyJBY21hZG1pbmlzdHJhdG9ycyJdLCJhcHBzIjpbImFjbSIsImRtIiwicHAiXSwiaXNzIjoiaHR0cHM6XC9cL2ZsYXRpcm9uc3NvbHV0aW9ucy5jb20iLCJsYXN0bmFtZSI6IlN0cmF0b3IiLCJmaXJzdG5hbWUiOiJBZG1pbiBJLiIsImlhdCI6MTU5MjU0ODgxOCwiZ3JvdXBzIjpbIkdyb3VwIGZvciBBY21hZG1pbmlzdHJhdG9ycyIsIkFDTSIsIkRNIiwiUFAiXX0.nbg9_-uC4lq83RSTfetJqFJeUeD9MRa2Vr0x8tgYM1UhSMySVQBPtrWmTmw9YjaW8clH1k6FfFiZ9oAOI-FWscD3VUVBPefmzlkphyKbjXKMBA5p9IdF1OUSVP36gMBxm06GdNMwkQKvRBBmg1Toa5wXkQgdmiiUoBWQDmJCYJY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"token\":\"eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE1OTI2MzUyMTgsInN1YiI6ImFjbS1hZG1pbiIsImVtYWlsIjoiYWNtLWFkbWluQGZsYXRpcm9ucy5jb20iLCJyb2xlcyI6WyJBY21hZG1pbmlzdHJhdG9ycyJdLCJhcHBzIjpbImFjbSIsImRtIiwicHAiXSwiaXNzIjoiaHR0cHM6XC9cL2ZsYXRpcm9uc3NvbHV0aW9ucy5jb20iLCJsYXN0bmFtZSI6IlN0cmF0b3IiLCJmaXJzdG5hbWUiOiJBZG1pbiBJLiIsImlhdCI6MTU5MjU0ODgxOCwiZ3JvdXBzIjpbIkdyb3VwIGZvciBBY21hZG1pbmlzdHJhdG9ycyIsIkFDTSIsIkRNIiwiUFAiXX0.nbg9_-uC4lq83RSTfetJqFJeUeD9MRa2Vr0x8tgYM1UhSMySVQBPtrWmTmw9YjaW8clH1k6FfFiZ9oAOI-FWscD3VUVBPefmzlkphyKbjXKMBA5p9IdF1OUSVP36gMBxm06GdNMwkQKvRBBmg1Toa5wXkQgdmiiUoBWQDmJCYJY\",\"resources\":[\"Access Control://Privileges\"]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/privileges",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"privileges"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "openUserRoles",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiJ9.eyJleHAiOjE1OTI2MzUyMTgsInN1YiI6ImFjbS1hZG1pbiIsImVtYWlsIjoiYWNtLWFkbWluQGZsYXRpcm9ucy5jb20iLCJyb2xlcyI6WyJBY21hZG1pbmlzdHJhdG9ycyJdLCJhcHBzIjpbImFjbSIsImRtIiwicHAiXSwiaXNzIjoiaHR0cHM6XC9cL2ZsYXRpcm9uc3NvbHV0aW9ucy5jb20iLCJsYXN0bmFtZSI6IlN0cmF0b3IiLCJmaXJzdG5hbWUiOiJBZG1pbiBJLiIsImlhdCI6MTU5MjU0ODgxOCwiZ3JvdXBzIjpbIkdyb3VwIGZvciBBY21hZG1pbmlzdHJhdG9ycyIsIkFDTSIsIkRNIiwiUFAiXX0.nbg9_-uC4lq83RSTfetJqFJeUeD9MRa2Vr0x8tgYM1UhSMySVQBPtrWmTmw9YjaW8clH1k6FfFiZ9oAOI-FWscD3VUVBPefmzlkphyKbjXKMBA5p9IdF1OUSVP36gMBxm06GdNMwkQKvRBBmg1Toa5wXkQgdmiiUoBWQDmJCYJY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/{{UserRoles}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"{{UserRoles}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "openUserGroups",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/{{UserGroups}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"{{UserGroups}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Configuration- Pinpoint",
+			"item": [
+				{
+					"name": "CanAccessCurrentRevision",
+					"item": [
+						{
+							"name": "EnableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "79ec925b-da5b-488f-8944-72949cb01273",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520access%2520current%2520revisions%2520only?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"            }, function (err, response) {\r",
+											"                  console.log(response.json());\r",
+											"                 pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should have Read, Write and Delete Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].userGroups[0].name).to.eql('ViewerRole');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"                    });\r",
+											"             });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can access current revisions only\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can access current revisions only\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can access current revisions only\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "22dbb056-fba3-4f07-aaeb-a07a3857a700",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520access%2520current%2520revisions%2520only?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                   pm.test(\"User role should not have any Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                    pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+											"\r",
+											"                    });\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can access current revisions only\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can access current revisions only\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can access current revisions only\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "MustSeeEULAPopup",
+					"item": [
+						{
+							"name": "EnableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c709e780-eff6-4f3d-a9ee-7a2c4fe9f0d6",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FMust%2520see%2520EULA%2520at%2520every%2520login?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should have Read, Write and Delete Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].userGroups[0].name).to.eql('ViewerRole');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"                    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "4a881eff-b1a6-4511-989f-0d3dd851f43c",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Must see EULA at every login\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Must see EULA at every login\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Must see EULA at every login\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "be74d5b7-4ba1-4721-8411-e2681141d48d",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FMust%2520see%2520EULA%2520at%2520every%2520login?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should not have Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                       pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+											"                      \r",
+											"                    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Must see EULA at every login\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Must see EULA at every login\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Must see EULA at every login\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanViewTemporaryRevision",
+					"item": [
+						{
+							"name": "EnableRWDPrivilege",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "08c5f3e0-7371-4ae9-8682-f4cc0343a2c3",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520view%2520temporary%2520revisions?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should have Read, Write and Delete Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                     pm.expect(jsonData.userGroupPrivileges[0].userGroups[0].name).to.eql('ViewerRole');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].uri).to.include('Can view temporary revisions');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"                    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can view temporary revisions\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can view temporary revisions\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can view temporary revisions\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisableRWDPrivilege",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "954012cb-ad7e-4f05-b3ff-495b9e8d0e72",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"URL\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520view%2520temporary%2520revisions?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"Authorization\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should not have Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                        pm.expect(jsonData.userGroupPrivileges).to.eql([]);\r",
+											"                      \r",
+											"\r",
+											"                    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view temporary revisions\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view temporary revisions\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view temporary revisions\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanViewPublicationImportStatus",
+					"item": [
+						{
+							"name": "EnableRWDPrivilege",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e1251ad6-74b7-469c-a525-6f2160391745",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"IndPPUrl\")+pm.environment.get(\"UserRoleNum\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520view%2520publication%2520import%2520status?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"authtoken\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should have Read, Write and Delete Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                     pm.expect(jsonData.userGroupPrivileges[0].userGroups[0].name).to.eql('view');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].uri).to.include('');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"                    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{authtoken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view publication import status\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view publication import status\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view publication import status\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IndPPUrl}}/{{UserRoleNum}}/privileges?actions=false",
+									"host": [
+										"{{IndPPUrl}}"
+									],
+									"path": [
+										"{{UserRoleNum}}",
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisableRWDPrivilege",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ec901e8e-449d-4378-8424-fd4de9197268",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"IndPPUrl\")+pm.environment.get(\"UserRoleNum\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520view%2520publication%2520import%2520status?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"authtoken\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should not have any Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                        pm.expect(jsonData.userGroupPrivileges).to.include([]);\r",
+											"                     \r",
+											"                    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can view publication import status\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can view publication import status\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can view publication import status\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanViewAnyPermittedRevisions",
+					"item": [
+						{
+							"name": "DisableRWDPrivilege",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c24740df-403c-44ff-886a-cd3953f1a981",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"IndPPUrl\")+pm.environment.get(\"UserRoleNum\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520view%2520any%2520permitted%2520revisions?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"authtoken\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should not have any Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                        pm.expect(jsonData.userGroupPrivileges).to.include([]);\r",
+											"                     \r",
+											"                    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view any permitted revisions\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view any permitted revisions\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view any permitted revisions\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IndPPUrl}}/{{UserRoleNum}}/privileges?actions=false",
+									"host": [
+										"{{IndPPUrl}}"
+									],
+									"path": [
+										"{{UserRoleNum}}",
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EnableRWDPrivilege",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c20fab7f-29e9-4a08-8d10-bdbb9ee8d94f",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url:pm.environment.get(\"IndPPUrl\")+pm.environment.get(\"UserRoleNum\")+\"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520view%2520any%2520permitted%2520revisions?actions=false\",\r",
+											"        method:\"GET\",\r",
+											"        header:{\r",
+											"           \"content-type\":\"application/json\",\r",
+											"           \"authorization\":pm.environment.get(\"authtoken\")\r",
+											"            }\r",
+											"        \r",
+											"            }, function (err, response) {\r",
+											"                 console.log(response.json());\r",
+											"                  pm.test('Status Code should be 200',function(){\r",
+											"                      pm.expect(response).to.have.property('code', 200);\r",
+											"                 })\r",
+											"                \r",
+											"                pm.test(\"User role should have Read, Write and Delete Privileges \", function () {\r",
+											"                    var jsonData = response.json();\r",
+											"                     pm.expect(jsonData.userGroupPrivileges[0].userGroups[0].name).to.eql('view');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].uri).to.include('');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"                       pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"                    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view any permitted revisions\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view any permitted revisions\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can view any permitted revisions\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"add\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IndPPUrl}}/{{UserRoleNum}}/privileges?actions=false",
+									"host": [
+										"{{IndPPUrl}}"
+									],
+									"path": [
+										"{{UserRoleNum}}",
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanAssignAcknowledgement",
+					"item": [
+						{
+							"name": "EnableRWDPrivileges",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanAssignGroupAcknowledgement",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanChangeEnvironmentInPinpointMobile",
+					"item": [
+						{
+							"name": "EnableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4b444153-523e-4833-b3f4-d180ba12c338",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url: pm.environment.get(\"URL\") + \"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520change%2520the%2520environment%2520in%2520Pinpoint%2520Mobile?actions=false\",\r",
+											"        method: \"GET\",\r",
+											"        header: {\r",
+											"            \"content-type\": \"application/json\",\r",
+											"            \"authorization\": pm.environment.get(\"Authorization\")\r",
+											"        }\r",
+											"\r",
+											"    }, function (err, response) {\r",
+											"        console.log(response.json());\r",
+											"        pm.test('Status Code should be 200', function () {\r",
+											"            pm.expect(response).to.have.property('code', 200);\r",
+											"        })\r",
+											"\r",
+											"        pm.test(\"User role should have Read, Write and Delete Privileges for User group\", function () {\r",
+											"            var jsonData = response.json();\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql('Pinpoint://configuration/Can change the environment in Pinpoint Mobile');\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"        });\r",
+											"    });\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{Authorization}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can change the environment in Pinpoint Mobile\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can change the environment in Pinpoint Mobile\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can change the environment in Pinpoint Mobile\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c2a52f8d-cf26-4663-9e31-61143939a895",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url: pm.environment.get(\"URL\") + \"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520change%2520the%2520environment%2520in%2520Pinpoint%2520Mobile?actions=false\",\r",
+											"        method: \"GET\",\r",
+											"        header: {\r",
+											"            \"content-type\": \"application/json\",\r",
+											"            \"authorization\": pm.environment.get(\"Authorization\")\r",
+											"        }\r",
+											"\r",
+											"    }, function (err, response) {\r",
+											"        console.log(response.json());\r",
+											"        pm.test('Status Code should be 200', function () {\r",
+											"            pm.expect(response).to.have.property('code', 200);\r",
+											"        })\r",
+											"\r",
+											"        pm.test(\"User role should not have Privileges\", function () {\r",
+											"            var jsonData = response.json();\r",
+											"            pm.expect(jsonData.userGroupPrivileges).to.eql([]) \r",
+											"\r",
+											"        });\r",
+											"    });\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can change the environment in Pinpoint Mobile\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can change the environment in Pinpoint Mobile\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can change the environment in Pinpoint Mobile\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"remove\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanConfigureIncreamentalSyncDetails",
+					"item": [
+						{
+							"name": "EnableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "90c6e99f-7a5a-4413-b97b-8290e5efd50d",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url: pm.environment.get(\"URL\") + \"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520configure%2520incremental%2520sync%2520details?actions=false\",\r",
+											"        method: \"GET\",\r",
+											"        header: {\r",
+											"            \"content-type\": \"application/json\",\r",
+											"            \"authorization\": pm.environment.get(\"Authorization\")\r",
+											"        }\r",
+											"\r",
+											"    }, function (err, response) {\r",
+											"        console.log(response.json());\r",
+											"        pm.test('Status Code should be 200', function () {\r",
+											"            pm.expect(response).to.have.property('code', 200);\r",
+											"        })\r",
+											"\r",
+											"        pm.test(\"User role should have Read, Write and Delete Privileges for User group\", function () {\r",
+											"            var jsonData = response.json();\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].uri).to.eql('Pinpoint://configuration/Can configure incremental sync details');\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].permissionType[0]).to.eql('Delete');\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].permissionType[1]).to.eql('Read');\r",
+											"            pm.expect(jsonData.userGroupPrivileges[0].permissionType[2]).to.eql('Write');\r",
+											"\r",
+											"        });\r",
+											"    });\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{Authorization}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userGroupPrivilegeChanges\": [\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can configure incremental sync details\",\r\n                \"permissionType\": [\r\n                    \"Read\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can configure incremental sync details\",\r\n                \"permissionType\": [\r\n                    \"Write\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        },\r\n        {\r\n            \"userGroupPrivilege\": {\r\n                \"uri\": \"Pinpoint://configuration/Can configure incremental sync details\",\r\n                \"permissionType\": [\r\n                    \"Delete\"\r\n                ],\r\n                \"defaultForDescendants\": false\r\n            },\r\n            \"operation\": \"add\",\r\n            \"applyToDescendants\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisableRWDPrivileges",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6a4fcbad-e386-4b8a-aaa6-f82990af5241",
+										"exec": [
+											"pm.sendRequest(\r",
+											"    {\r",
+											"        url: pm.environment.get(\"URL\") + \"/privileges/Pinpoint%253A%252F%252Fconfiguration%252FCan%2520configure%2520incremental%2520sync%2520details?actions=false\",\r",
+											"        method: \"GET\",\r",
+											"        header: {\r",
+											"            \"content-type\": \"application/json\",\r",
+											"            \"authorization\": pm.environment.get(\"Authorization\")\r",
+											"        }\r",
+											"\r",
+											"    }, function (err, response) {\r",
+											"        console.log(response.json());\r",
+											"        pm.test('Status Code should be 200', function () {\r",
+											"            pm.expect(response).to.have.property('code', 200);\r",
+											"        })\r",
+											"\r",
+											"        pm.test(\"User role should not have Privileges\", function () {\r",
+											"            var jsonData = response.json();\r",
+											"            pm.expect(jsonData.userGroupPrivileges).to.eql([])\r",
+											"\r",
+											"        });\r",
+											"    });\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{Authorization}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"userGroupPrivilegeChanges\":[{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can configure incremental sync details\",\"permissionType\":[\"Write\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can configure incremental sync details\",\"permissionType\":[\"Read\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false},{\"userGroupPrivilege\":{\"uri\":\"Pinpoint://configuration/Can configure incremental sync details\",\"permissionType\":[\"Delete\"],\"defaultForDescendants\":false},\"operation\":\"remove\",\"applyToDescendants\":false}]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/privileges?actions=false",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"privileges"
+									],
+									"query": [
+										{
+											"key": "actions",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanConfigureProxyDetailsForDataManagerServer",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanCreateModifyOrDeletePublicAnnotation",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanEditLandingUrl",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanEditRemoteServerDetails",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanEnableDisableAccessToOlderRevisions",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CanImportDataPackages",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
